@@ -1,0 +1,72 @@
+
+This folder contains example fields and software that demonstrates
+ computation of displacement of isopleths as introduced in
+Melsom, A. (2021): Edge displacement scores. The Cryosphere.
+
+This is the example that is presented and discussed in Section 2.1-2
+
+The software produces the values that are given in Table 1, and
+ the distributions that are presented in Figure 2
+
+The software has been written in R (https://www.r-project.org/)
+
+The library that is used for reading netCDF files is available
+ from https://cran.r-project.org/web/packages/RNetCDF/index.html
+
+
+N O T E !
+
+ The software must be executed in sequence, since PART 2 depends on
+ output from PART 1, and PART 3 depends on output from PART 2.
+
+
+PART 1
+======
+
+Add edge node variables (no. grid nodes; x, y grid cell no)
+ to the netCDF file
+
+R CMD BATCH addEdgePos.R
+ (uses function  setEdgeNodes  from  edgeNodes.R)
+
+
+PART 2
+======
+
+Compute results to be listed in Table 1
+
+2.1 Calculate edge distances; results will be stored in
+     distance_all_edge[12].dat
+ R CMD BATCH allDistances.R
+
+2.2 Summarize results from 2.1 in displacement distance categories;
+    results will be stored in
+     distance_distro.dat
+ R CMD BATCH tabulatedDistances.R
+
+
+PART 3
+======
+
+Compute results to be displayed in Figure 2.
+Results for Figure 2 will be stored in
+ distance_ref.dat
+ distance_mod.dat
+
+R CMD BATCH edgeMotion.R
+ (uses function  edgeDistro     from  IEdistance.R
+   and function  allLinesPlain  from  allLinesPlain.R)
+
+NOTE 1:  edgeMotion.R  returns additional results which are
+                        not used for Figure 2
+NOTE 2:  allLinesPlain which sequences edge grid nodes into line
+                        segments may not work well for complex
+                        configurations of edge grid nodes (sub-
+			optimalsplitting of branching edge lines);
+                        in that case, the user must write an
+			alternative code for his/her purpose
+
+
+Arne Melsom (arne.melsom@met.no)
+Oslo, Norway
+2021-02-17
